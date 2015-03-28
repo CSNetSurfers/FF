@@ -40,7 +40,28 @@ next([1|T],[0|NewList]) :- next(T,NewList).
 
 
 
+truth_value(N,_,_,N) :- member(N,[0,1]).
+truth_value(X,vars,A,Val) :- atom(X), lookup(X,Vars,A,Val).
+truth_value(X and Y,Vars,A,Val) :- truth_value(X,Vars,A,VX), truth_Value(Y,Vars,A,VY), and_op(VX,VY,Val).
+truth_value(X or Y,Vars,A,Val) :- truth_value(X,Vars,A,VX), truth_Value(Y,Vars,A,VY), or_op(VX,VY,Val).
+truth_value(not X,Vars,A,Val) :- truth_Value(X,Vars,A,VX), not_op(VX,Val).
 
+lookup(X,[X|_],[V|_],V).
+lookup(X,[_|Vars],[_|A],V) :- lookup(X,Vars,A,V).
+
+/*possible boolean outcomes*/
+and_op(0,0,0).
+and_op(0,1,0).
+and_op(1,0,0).
+and_op(1,1,1).
+
+or_op(0,0,0).
+or_op(0,1,0).
+or_op(1,0,0).
+or_op(1,1,1).
+
+not_op(1,0).
+not_op(0,1).
 
 
 
