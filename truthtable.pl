@@ -66,4 +66,18 @@ not_op(0,1).
 
 
 
+/* Prints the truth table */
+tt(Boolean_exp) :- identify_variables(Boolean_exp,[],V),
+         reverse(V,Vars),
+         initial_assign(Vars,A),
+         write('  '), write(Vars), write('    '), write(Boolean_exp), nl,
+         write('-----------------------------------------'), nl,
+         print_row(Boolean_exp,Vars,A),
+         write('-----------------------------------------'), nl.
+
+print_row(Boolean_exp,Vars,A) :- write('  '), write(A), write('        '), 
+                       truth_value(Boolean_exp,Vars,A,V), write(V), nl,
+                       (successor(A,N) -> print_row(Boolean_exp,Vars,N) ; true).
+
+
 
